@@ -93,7 +93,7 @@ tasks:
         {{.DRY}} docker buildx create --name mybuilder --bootstrap --use
 
   clean-images:
-    - docker images -a | grep ghcr.io/nuvolaris | awk '{print $3}' | xargs docker rmi -f
+    - docker images -a | grep ghcr.io/openserverless | awk '{print $3}' | xargs docker rmi -f
     - yes | docker buildx prune
 
   build-common:

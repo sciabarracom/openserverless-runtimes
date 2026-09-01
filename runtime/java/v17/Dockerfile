@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-# rely on nuvolaris common runtime image
+# rely on openserverless common runtime image
 ARG COMMON=missing:missing
 FROM ${COMMON} AS builder
 
