@@ -21,22 +21,28 @@ dotenv: [.env]
 
 vars:
   DRY: ""
+  DEL: ""
   PUSH: ""
   BASETAG: ""
-  REPO_PATH: apache
-  BASEIMG: docker.io/{{.REPO_PATH}}
+  COMMIT_ID:
+    sh: git rev-parse --short HEAD
+  SUFFIX: "-SNAPSHOT"
+# registri
+  REGISTRY: ${DOCKERHUB_REGISTRY:-docker.io}
+  REPO_PATH: ${DOCKERHUB_USER:-apache}
+  BASEIMG: '{{.REGISTRY}}/{{.REPO_PATH}}'
+  # common and experimental runtimes
   COMMON_VER: common1.17.1
   COMMON: "{{.BASEIMG}}/openserverless-runtime-common:{{.COMMON_VER}}"
-  EXPERIMENTAL_COMMON_VER: common1.18.4
+  EXPERIMENTAL_COMMON_VER: common1.18.4{{.SUFFIX}}
   EXPERIMENTAL_COMMON: "{{.BASEIMG}}/openserverless-runtime-common:{{.EXPERIMENTAL_COMMON_VER}}"
+  # pick the latest tag
   TAG:
-    sh: git describe --tags --abbrev=0 2>/dev/null || echo latest
+    sh: git describe --tags --abbrev=0 2>/dev/null || echo snapshot
   J: "{}"
   #RUNTIMES: "go,nodejs,php,python,java" temp disabled php
   RUNTIMES: "go,nodejs,python,java"
   EXPERIMENTAL_RUNTIMES: "python"
-  COMMIT_ID:
-    sh: git rev-parse --short HEAD
 
 tasks:
   default:
@@ -49,9 +55,11 @@ tasks:
     - sudo apt-get -y install python3-pip python3-virtualenv
     - python3 -m pip install ipython watchdog requests cram
 
+  # deprecated
   image-tag:
     silent: true
     cmds:
+      - echo "deprecated - use task tag"
       - git tag -d $(git tag)
       - |
         if test -n "{{.RT}}"
@@ -60,21 +68,58 @@ tasks:
         fi
       - env PAGER= git tag
 
+  # deprecated - use task tag
   common-tag:
     silent: true
     cmds:
-      - git tag -d $(git tag)
-      - git tag -f common-$(date +%y%m%d%H%M)
+      - echo "deprecated - use task tag with RT=common"
+      #- git tag -d $(git tag)
+      #- git tag -f common-$(date +%y%m%d%H%M)
+      #- env PAGER= git tag
 
-      - env PAGER= git tag
-
+  # deprecated - use task tag
   experimental-tag:
     silent: true
     cmds:
-      - git tag -d $(git tag)
-      - git tag -f experimental-$(date +%y%m%d%H%M)
+      - echo "deprecated - use task tag with RT=experimental"
+      #- git tag -d $(git tag)
+      #- git tag -f experimental-$(date +%y%m%d%H%M)
+      #- env PAGER= git tag
 
-      - env PAGER= git tag
+  tag:
+    silent: true
+    requires: {  vars: [RT] }
+    vars:
+      TS:
+        sh: date '+%y %m %d %H %M' | awk '{printf "%s%s%d%s%d\n", $1, substr("abcdefghijkl",$2+0,1), $3, substr("abcdefghijklmnopqrstuvwx",$4+1,1), $5}'
+    cmds:
+      - git tag | grep '{{.RT}}' | xargs -L1 git tag -d
+      - |
+        TAG="{{.RT}}_{{.TS}}{{.SUFFIX}}"
+        git tag
+        echo New tag $TAG
+
+  # run this
+  ci-build:
+    silent: true
+    cmds:
+    - |
+        task docker-login
+        T={{.TAG}}
+        case "$T" in
+          common-*)
+            TG="${T#*-}"
+            task build-common TAG=$TG PUSH=y
+          ;;
+          *_*)
+            RT="${T%%_*}"
+            TG="${T#*_}"
+            build-lang RT=$RT TAG=$TG PUSH=y
+          ;;
+          *)
+            echo should not happen - did you read the README
+          ;;
+        esac
 
   compile: go build -o proxy
 
@@ -86,14 +131,18 @@ tasks:
   docker-login:
     ignore_error: true
     cmds:
-      - echo ${MY_DOCKER_HUB_TOKEN:-$DOCKER_HUB_TOKEN} | docker login -u ${MY_DOCKER_HUB_USER:-$DOCKER_HUB_USER} --password-stdin registry.hub.docker.com
       - >
-        {{.DRY}} docker run -it --rm --privileged tonistiigi/binfmt --install all
+        echo ${$DOCKERHUB_TOKEN}
+        | docker login -u $DOCKERHUB_USER
+        --password-stdin {{.REGISTRY}}
+      - >
+        {{.DRY}} docker run -it --rm --privileged
+        tonistiigi/binfmt:qemu-v7.0.0-28 --install all
       - >
         {{.DRY}} docker buildx create --name mybuilder --bootstrap --use
 
   clean-images:
-    - docker images -a | grep ghcr.io/openserverless | awk '{print $3}' | xargs docker rmi -f
+    - docker images -a | grep openserverless | awk '{print $3}' | xargs docker rmi -f
     - yes | docker buildx prune
 
   build-common:
@@ -101,8 +150,8 @@ tasks:
     cmds:
       - |
         if test -n "{{.PUSH}}"
-        then {{.DRY}} docker buildx build -t "{{.COMMON}}" --platform linux/amd64,linux/arm64 . --push
-        else {{.DRY}} docker buildx build -t "{{.COMMON}}" . --load
+        then {{.DRY}} docker buildx build -t "{{.COMMON}}{{.SUFFIX}}" --platform linux/amd64,linux/arm64 . --push
+        else {{.DRY}} docker buildx build -t "{{.COMMON}}{{.SUFFIX}}" . --load
         fi
 
   build-runtime:
@@ -110,12 +159,15 @@ tasks:
     dir: "runtime/{{.RT}}/{{.VER}}"
     cmds:
       - |
-        BASEIMG=$(echo "${MY_DOCKER_HUB_REGISTRY:-$DOCKER_HUB_REGISTRY}")
-        RUNTIME="{{.BASEIMG}}/openserverless-runtime-{{.RT}}:{{.VER}}-{{.TAG}}"
+        RUNTIME="{{.BASEIMG}}/openserverless-runtime-{{.RT}}:{{.VER}}-{{.TAG}}{{.SUFFIX}}"
+        COMMON="{{.COMMON}}{{.SUFFIX}}"
         if test -n "{{.PUSH}}"
         then
-          {{.DRY}} docker buildx build -t "$RUNTIME" --build-arg COMMON="{{.COMMON}}" --platform linux/amd64,linux/arm64 . --push
-        else {{.DRY}} docker buildx build -t "$RUNTIME" --build-arg COMMON="{{.COMMON}}" . --load
+              {{.DRY}} docker buildx build -t "$RUNTIME" \
+                --build-arg COMMON="$COMMON" \
+                --platform linux/amd64,linux/arm64 . --push
+        else  {{.DRY}} docker buildx build -t "$RUNTIME" \
+                --build-arg COMMON="$COMMON" . --load
         fi
         echo "Built $RUNTIME"
 
@@ -180,11 +232,10 @@ tasks:
     dir: "runtime/experimental/{{.RT}}/{{.VER}}"
     cmds:
       - >
-        BASEIMG="${MY_DOCKER_HUB_REGISTRY:-$DOCKER_HUB_REGISTRY}" ;
         {{.DRY}} docker run -p 8080:8080 -ti
         --entrypoint=/bin/bash -v $PWD:/mnt
         -e OW_COMPILER=/mnt/bin/compile
-        "${BASEIMG}/openserverless-runtime-{{.RT}}:{{.VER}}-{{.TAG}}"
+        "{{.BASEIMG}}/openserverless-runtime-{{.RT}}:{{.VER}}-{{.TAG}}"
 
   init:
     desc: intialize a runtime with a test
@@ -202,7 +253,6 @@ tasks:
     dir: "runtime/{{.RT}}/{{.VER}}"
     cmds:
       - |
-        BASEIMG=$(echo "${MY_DOCKER_HUB_REGISTRY:-$DOCKER_HUB_REGISTRY}")
         RUNTIME="{{.BASEIMG}}/openserverless-runtime-{{.RT}}:{{.VER}}-{{.TAG}}"
         ENVVER=$(echo "{{.VER}}" | tr '.' '_' | tr '[:upper:][:lower:]' '[:lower:][:upper:]')
         ENVRT=$(echo "{{.RT}}" | tr '[a-zA-Z]' '[A-Za-z]')
@@ -266,8 +316,7 @@ tasks:
     dir: "runtime/experimental/{{.RT}}/{{.VER}}"
     cmds:
       - |
-        BASEIMG=$(echo "${MY_DOCKER_HUB_REGISTRY:-$DOCKER_HUB_REGISTRY}")
-        RUNTIME="$BASEIMG/openserverless-runtime-{{.RT}}:{{.VER}}-{{.TAG}}"
+        RUNTIME="{{.BASEIMG}}/openserverless-runtime-{{.RT}}:{{.VER}}-{{.TAG}}"
         PLATFORMS=$(cat platforms.txt)
         if test -n "{{.PUSH}}"
         then
@@ -314,10 +363,9 @@ tasks:
     requires: { vars: [RT, VER] }
     cmds:
       - >
-        BASEIMG="${MY_DOCKER_HUB_REGISTRY:-$DOCKER_HUB_REGISTRY}" ;
         {{.DRY}} docker run -p 8081:8080 -e OW_ACTIVATE_PROXY_SERVER=1 -ti
         --entrypoint=/mnt/proxy-experimental -v $PWD:/mnt
-        "${BASEIMG}/openserverless-runtime-{{.RT}}:{{.VER}}-{{.TAG}}" -debug
+        "{{.BASEIMG}}/openserverless-runtime-{{.RT}}:{{.VER}}-{{.TAG}}" -debug
 
   debug-experimental-proxy:
     desc: debug a runtime
