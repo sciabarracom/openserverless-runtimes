@@ -23,7 +23,7 @@ ENV OW_EXECUTION_ENV=apacheopenserverless/runtime-python-v3.12.2
 COPY --from=builder /go/bin/proxy /bin/proxy 
 
 # install zip
-RUN apt-get update && apt-get install -y python3-lxml python3-psycopg2 zip xpdf \
+RUN apt-get update && apt-get install -y python3-lxml zip \
     && rm -rf /var/lib/apt/lists/*
 
 # Install common modules for python
@@ -51,4 +51,7 @@ ENV HOME=/tmp
 WORKDIR /action
 RUN chown nobody:root /action ; chmod 0775 /action
 USER nobody
+# Apache release metadata (see DISCLAIMER, LICENSE, NOTICE, WARN)
+COPY DISCLAIMER LICENSE NOTICE /
+
 ENTRYPOINT ["/bin/proxy"]

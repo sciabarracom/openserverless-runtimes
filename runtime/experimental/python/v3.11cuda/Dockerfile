@@ -24,16 +24,16 @@ ENV OW_EXECUTION_ENV=apacheopenserverless/runtime-python-v3.11
 COPY --from=builder /go/bin/proxy /bin/proxy
 
 # install zip
-RUN apt-get update && apt-get install -y zip xpdf\
+RUN apt-get update && apt-get install -y zip \
     build-essential g++ ninja-build \
-    && rm -rf /var/lib/apt/lists/*  
+    && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt requirements.txt
 
 RUN \
     /opt/conda/bin/conda init ;\
     source /opt/conda/bin/activate ;\
-    conda install lxml psycopg2 -y ;\
+    conda install lxml -y ;\
     pip3 install --upgrade pip six wheel virtualenv ;\
     pip3 install --no-cache-dir -r requirements.txt
 
@@ -62,6 +62,6 @@ WORKDIR /action
 RUN mkdir -p /action ;\
     chmod 0775 /action /workspace ;\
     useradd -m -d /workspace -s /bin/bash -g root workspace ;\
-    chown workspace:root /action /workspace 
+    chown workspace:root /action /workspace
 
 ENTRYPOINT ["/bin/proxy"]

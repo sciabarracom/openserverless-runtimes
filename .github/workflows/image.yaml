@@ -19,7 +19,7 @@ name: Build Images
 on: 
   push:
     tags:
-      - '[0-9]*'
+      - '*.*.*.*'
     branches-ignore: '*'
   #pull_request:
   #  branches: [main]

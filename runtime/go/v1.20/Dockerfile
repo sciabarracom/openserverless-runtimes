@@ -25,13 +25,11 @@ RUN \
     echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections &&\
     apt-get update &&\
     apt-get upgrade -y --no-install-recommends &&\
-    apt-get install -y apt-utils &&\
     apt-get install -y \
       curl \
       jq \
-      git \
       zip \
-      vim && \
+      && \
     apt-get -y install \
     librdkafka1 \
     librdkafka++1 \
@@ -47,4 +45,7 @@ ENV OW_WAIT_FOR_ACK=1
 WORKDIR /action
 RUN chown nobody:root /action ; chmod 0775 /action
 USER nobody
+# Apache release metadata (see DISCLAIMER, LICENSE, NOTICE, WARN)
+COPY DISCLAIMER LICENSE NOTICE /
+
 ENTRYPOINT [ "/bin/proxy" ]

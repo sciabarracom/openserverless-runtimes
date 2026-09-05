@@ -15,10 +15,9 @@ twisted==21.7.0
 netifaces==0.11.0
 pyyaml==6.0.2
 boto3==1.35.98
-psycopg==3.1.10
+pg8000==1.31.5
 pymongo==4.4.1
 minio==7.1.16
-auth0-python==4.6.0
 langdetect==1.0.9
 plotly==5.19.0
 joblib==1.4.2
@@ -31,11 +30,9 @@ langchain-ollama==0.2.2
 langchain-openai==0.2.14
 langchain-anthropic==0.3.1
 langchain-together==0.2.0
-langchain-postgres==0.0.12
 langchain-milvus==0.1.7
 bcrypt==4.2.1
 chevron==0.14.0
-chess==1.11.1
 uvicorn==0.34.2
 fastapi==0.115.12
 starlette==0.46.2

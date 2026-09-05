@@ -26,7 +26,7 @@ RUN rm -rf /var/lib/apt/lists/* \
     && apt-get clean \
     && apt-get update \
     && apt-get -y --no-install-recommends upgrade \
-    && apt-get -y --no-install-recommends install locales python vim \
+    && apt-get -y --no-install-recommends install locales python \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && locale-gen en_US.UTF-8
@@ -60,5 +60,8 @@ ENV OW_LOG_INIT_ERROR=1
 ENV OW_COMPILER=/bin/compile
 # default name to use when a jar is submitted as action
 ENV OW_SAVE_JAR=exec.jar
+
+# Apache release metadata (see DISCLAIMER, LICENSE, NOTICE, WARN)
+COPY DISCLAIMER LICENSE NOTICE /
 
 ENTRYPOINT ["/bin/proxy"]

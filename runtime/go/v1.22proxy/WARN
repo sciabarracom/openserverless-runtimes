@@ -1,0 +1,98 @@
+==============================================================================
+WARN -- Apache License 2.0 incompatibilities
+Container image: apache/openserverless-runtime-golang:v1.22proxy
+==============================================================================
+
+This file lists third-party components bundled by the Dockerfile beside
+it whose licenses are NOT compatible with the Apache License, Version 2.0,
+together with components that require special handling.
+
+Classification follows the ASF third-party licensing policy:
+
+    https://www.apache.org/legal/resolved.html
+
+  Category A  Apache-2.0 compatible. May be included in a release.
+  Category B  May be included in BINARY form only, unmodified and as a
+              separate file, with the reciprocal license disclosed.
+  Category X  MUST NOT be included in an Apache release artifact.
+
+IMPORTANT SCOPE NOTE
+------------------------------------------------------------------------------
+The Apache release artifact for OpenServerless is the SOURCE distribution,
+which contains this Dockerfile and the files beside it -- all Apache-2.0
+licensed. The published container image is a CONVENIENCE BINARY assembled
+at build time from third-party base images and package repositories.
+Category X components inherited from a base operating system image are
+disclosed below but are not redistributed by the ASF in source form.
+Category X components that this Dockerfile ADDS on purpose must be removed.
+
+
+==============================================================================
+CATEGORY X
+==============================================================================
+
+  Component : git
+  License   : GPL-2.0
+  Category  : X
+  Action    :
+      GPL-2.0 is Category X. Shipped in the final image so that user actions can fetch
+      sources. REMOVE it, or document it as an operating-system component supplied by
+      the base image rather than by the ASF release.
+
+  Component : vim
+  License   : Vim License (charityware)
+  Category  : X
+  Action    :
+      The Vim licence is GPL-compatible but is not on the ASF Category A list and
+      contains a charityware clause. It is a developer convenience only.
+      REMOVE `vim` from the apt install list.
+
+  Component : apt-utils
+  License   : GPL-2.0-or-later
+  Category  : X
+  Action    :
+      GPL-2.0, and only needed during the build. REMOVE from the final image layer.
+
+
+==============================================================================
+CATEGORY X (as bundled)
+==============================================================================
+
+  Component : Debian/Ubuntu/Alpine base image userland
+  License   : mixed, incl. GPL-2.0/GPL-3.0
+  Category  : X (as bundled)
+  Action    :
+      The base image contains GPL-licensed operating-system components. The Apache release
+      artifact is the SOURCE (this Dockerfile and the files beside it); the published
+      container image is a convenience binary assembled from third-party base images.
+      No action required beyond this disclosure.
+
+
+==============================================================================
+CATEGORY A
+==============================================================================
+
+  Component : zip / unzip (Info-ZIP)
+  License   : Info-ZIP License
+  Category  : A
+  Action    :
+      BSD-like and Apache-compatible. No action required.
+
+
+==============================================================================
+SUMMARY OF REQUIRED REMOVALS (Category X added by this Dockerfile)
+==============================================================================
+
+  [x] git  --  GPL-2.0
+  [x] vim  --  Vim License (charityware)
+  [x] apt-utils  --  GPL-2.0-or-later
+
+==============================================================================
+ADDITIONAL NOTES
+==============================================================================
+
+Base image: golang:1.22-bookworm. The Go toolchain is BSD-3-Clause licensed.
+This image ships no preinstalled Go libraries: user actions declare their
+own dependencies, which are fetched at action-compile time and are NOT
+part of this image or of any Apache release artifact.
+

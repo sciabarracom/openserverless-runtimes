@@ -49,7 +49,7 @@ ENV OW_EXECUTION_ENV=apacheopenserverless/runtime-python-v3.13.4 \
 
 # Install only runtime deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3-psycopg2 zip xpdf ca-certificates && \
+    zip ca-certificates && \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
@@ -67,4 +67,7 @@ WORKDIR /action
 RUN chown nobody:root /action && chmod 0775 /action
 
 USER nobody
+# Apache release metadata (see DISCLAIMER, LICENSE, NOTICE, WARN)
+COPY DISCLAIMER LICENSE NOTICE /
+
 ENTRYPOINT ["/bin/proxy"]
