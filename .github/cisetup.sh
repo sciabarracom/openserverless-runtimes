@@ -1,3 +1,4 @@
+#!/bin/bash
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -15,26 +16,4 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-name: Test Go Proxy
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-jobs:
-    test:
-        name: Test Go Proxy
-        runs-on: ubuntu-22.04
-        steps:
-          - name: Checkout recursive
-            uses: actions/checkout@v2
-          - name: License check
-            uses: apache/skywalking-eyes@main
-          - name: Set up Go
-            uses: actions/setup-go@v2
-            with:
-              go-version: 1.23
-          - name: Run Go Tests
-            working-directory: ./openwhisk
-            run: go test -v
+sudo sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
