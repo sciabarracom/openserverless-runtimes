@@ -29,6 +29,7 @@ header:
     - 'LICENSE'
     - 'NOTICE'
     - 'DISCLAIMER'
+    - 'WARN'
     - 'cert-manager.yaml'
     - 'ingress-deploy.yaml'
     - 'runtimes.json'
