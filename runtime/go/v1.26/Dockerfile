@@ -17,38 +17,35 @@
 
 ARG COMMON=missing:missing
 FROM ${COMMON} AS builder
+FROM golang:1.26-bookworm
+ENV OW_EXECUTION_ENV=apacheopenserverless/runtime-golang-v1.26
+COPY --from=builder /go/bin/proxy /bin/proxy
 
-FROM node:21.6.2-bookworm
-ENV OW_EXECUTION_ENV=apacheopenserverless/nodejs-21.6.2
-COPY --from=builder /go/bin/proxy /bin/proxy 
+RUN \
+    echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections &&\
+    apt-get update &&\
+    apt-get upgrade -y --no-install-recommends &&\
+    apt-get install -y \
+      curl \
+      jq \
+      zip \
+      && \
+    apt-get -y install \
+    librdkafka1 \
+    librdkafka++1 \
+    librdkafka-dev &&\
+    apt-get clean && rm -rf /var/lib/apt/lists/* &&\
+    mkdir /action
 
+ADD bin/compile /bin/compile
+ADD lib/launcher.go /lib/launcher.go
 ENV OW_COMPILER=/bin/compile
 ENV OW_LOG_INIT_ERROR=1
 ENV OW_WAIT_FOR_ACK=1
-
-RUN apt-get update && apt-get install -y \
-    imagemagick \
-    graphicsmagick \
-    unzip \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY package.json /
-RUN npm config set fetch-retry-maxtimeout 60000 -g
-RUN cd / && npm install && npm cache clean --force
-
-RUN mkdir -p /app/action ;\
-  chmod -R 0775 /app ;\
-  chown -R nobody:root /app
-
-ENV HOME=/app
-WORKDIR /app
-COPY bin/compile /bin/compile
-COPY lib/launcher.js /lib/launcher.js
-
-EXPOSE 8080
+WORKDIR /action
+RUN chown nobody:root /action ; chmod 0775 /action
 USER nobody
-
 # Apache release metadata (see DISCLAIMER, LICENSE, NOTICE, WARN)
 COPY DISCLAIMER LICENSE NOTICE /
 
-ENTRYPOINT ["/bin/proxy"]
+ENTRYPOINT [ "/bin/proxy" ]

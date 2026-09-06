@@ -1,6 +1,6 @@
 ==============================================================================
 WARN -- Apache License 2.0 incompatibilities
-Container image: apache/openserverless-runtime-nodejs:v18
+Container image: apache/openserverless-runtime-golang:v1.20
 ==============================================================================
 
 This file lists third-party components bundled by the Dockerfile beside
@@ -31,13 +31,27 @@ Category X components that this Dockerfile ADDS on purpose must be removed.
 CATEGORY X
 ==============================================================================
 
-  Component : node-auth0
-  License   : NO LICENSE DECLARED
+  Component : git
+  License   : GPL-2.0
   Category  : X
   Action    :
-      The npm package `node-auth0@1.0.0` declares no licence at all and is marked
-      deprecated upstream. Unlicensed code may never be redistributed by the ASF.
-      REMOVE it from package.json; use the maintained `auth0` package (MIT) instead.
+      GPL-2.0 is Category X. Shipped in the final image so that user actions can fetch
+      sources. REMOVE it, or document it as an operating-system component supplied by
+      the base image rather than by the ASF release.
+
+  Component : vim
+  License   : Vim License (charityware)
+  Category  : X
+  Action    :
+      The Vim licence is GPL-compatible but is not on the ASF Category A list and
+      contains a charityware clause. It is a developer convenience only.
+      REMOVE `vim` from the apt install list.
+
+  Component : apt-utils
+  License   : GPL-2.0-or-later
+  Category  : X
+  Action    :
+      GPL-2.0, and only needed during the build. REMOVE from the final image layer.
 
 
 ==============================================================================
@@ -58,13 +72,6 @@ CATEGORY X (as bundled)
 CATEGORY A
 ==============================================================================
 
-  Component : imagemagick / graphicsmagick
-  License   : ImageMagick License / MIT
-  Category  : A
-  Action    :
-      Both are Apache-2.0 compatible. Note that ImageMagick delegate libraries may pull in
-      additional licences; verify the delegate set if the image is audited in depth.
-
   Component : zip / unzip (Info-ZIP)
   License   : Info-ZIP License
   Category  : A
@@ -76,15 +83,16 @@ CATEGORY A
 SUMMARY OF REQUIRED REMOVALS (Category X added by this Dockerfile)
 ==============================================================================
 
-  [x] node-auth0  --  NO LICENSE DECLARED
+  [x] git  --  GPL-2.0
+  [x] vim  --  Vim License (charityware)
+  [x] apt-utils  --  GPL-2.0-or-later
 
 ==============================================================================
 ADDITIONAL NOTES
 ==============================================================================
 
-Base image: node:18.19.1-bookworm (Node.js is MIT licensed).
-The npm dependency tree resolved by `npm install` is far larger than the
-direct dependencies listed here. Run `npm ls --all` or a license scanner
-inside the built image for the complete transitive inventory before an
-official release audit.
+Base image: golang:1.20-bookworm. The Go toolchain is BSD-3-Clause licensed.
+This image ships no preinstalled Go libraries: user actions declare their
+own dependencies, which are fetched at action-compile time and are NOT
+part of this image or of any Apache release artifact.
 

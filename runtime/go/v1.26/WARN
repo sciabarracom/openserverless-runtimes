@@ -1,6 +1,6 @@
 ==============================================================================
 WARN -- Apache License 2.0 incompatibilities
-Container image: apache/openserverless-runtime-golang:v1.22
+Container image: apache/openserverless-runtime-golang:v1.20
 ==============================================================================
 
 This file lists third-party components bundled by the Dockerfile beside
@@ -91,7 +91,7 @@ SUMMARY OF REQUIRED REMOVALS (Category X added by this Dockerfile)
 ADDITIONAL NOTES
 ==============================================================================
 
-Base image: golang:1.22-bookworm. The Go toolchain is BSD-3-Clause licensed.
+Base image: golang:1.20-bookworm. The Go toolchain is BSD-3-Clause licensed.
 This image ships no preinstalled Go libraries: user actions declare their
 own dependencies, which are fetched at action-compile time and are NOT
 part of this image or of any Apache release artifact.

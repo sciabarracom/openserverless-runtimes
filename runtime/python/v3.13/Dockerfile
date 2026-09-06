@@ -18,7 +18,7 @@
 ARG COMMON=missing:missing
 FROM ${COMMON} AS builder
 
-FROM python:3.13.4-slim-bookworm AS build-env
+FROM python:3.13.15-slim-bookworm AS build-env
 
 # Set environment for uv installation
 ENV UV_CACHE_DIR=/tmp/uv-cache \
@@ -41,7 +41,7 @@ RUN uv pip install --python python3 --system --no-cache-dir -r requirements.txt
 FROM python:3.13.4-slim-bookworm
 
 # Set runtime environment
-ENV OW_EXECUTION_ENV=apacheopenserverless/runtime-python-v3.13.4 \
+ENV OW_EXECUTION_ENV=apacheopenserverless/runtime-python-v3.13.15 \
     HOME=/tmp \
     OW_LOG_INIT_ERROR=1 \
     OW_WAIT_FOR_ACK=1 \

@@ -204,7 +204,7 @@
 
 ==============================================================================
 LICENSES OF BUNDLED THIRD-PARTY SOFTWARE
-Container image: apache/openserverless-runtime-golang:v1.22
+Container image: apache/openserverless-runtime-golang:v1.20
 ==============================================================================
 
 Apache OpenServerless itself is licensed under the Apache License,

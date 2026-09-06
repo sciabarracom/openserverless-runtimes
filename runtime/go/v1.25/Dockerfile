@@ -15,11 +15,10 @@
 # limitations under the License.
 #
 
-# Do not fix the patch level for golang:1.20 to automatically get security fixes.
 ARG COMMON=missing:missing
 FROM ${COMMON} AS builder
-FROM golang:1.22-bookworm
-ENV OW_EXECUTION_ENV=apacheopenserverless/runtime-golang-v1.22
+FROM golang:1.26-bookworm
+ENV OW_EXECUTION_ENV=apacheopenserverless/runtime-golang-v1.26
 COPY --from=builder /go/bin/proxy /bin/proxy
 
 RUN \
@@ -27,14 +26,14 @@ RUN \
     apt-get update &&\
     apt-get upgrade -y --no-install-recommends &&\
     apt-get install -y \
-     curl \
-     jq \
-     zip && \
-     apt-get -y install \
-     librdkafka1 \
-     librdkafka++1 \
-     librdkafka-dev &&\
-    # Cleanup apt data, we do not need them later on.
+      curl \
+      jq \
+      zip \
+      && \
+    apt-get -y install \
+    librdkafka1 \
+    librdkafka++1 \
+    librdkafka-dev &&\
     apt-get clean && rm -rf /var/lib/apt/lists/* &&\
     mkdir /action
 
@@ -43,11 +42,9 @@ ADD lib/launcher.go /lib/launcher.go
 ENV OW_COMPILER=/bin/compile
 ENV OW_LOG_INIT_ERROR=1
 ENV OW_WAIT_FOR_ACK=1
-
 WORKDIR /action
 RUN chown nobody:root /action ; chmod 0775 /action
 USER nobody
-
 # Apache release metadata (see DISCLAIMER, LICENSE, NOTICE, WARN)
 COPY DISCLAIMER LICENSE NOTICE /
 

@@ -18,9 +18,9 @@
 ARG COMMON=missing:missing
 FROM ${COMMON} AS builder
 
-FROM node:18.19.1-bookworm
-ENV OW_EXECUTION_ENV=apacheopenserverless/nodejs-18.19.1
-COPY --from=builder /go/bin/proxy /bin/proxy 
+FROM node:24.20.0-bookworm
+ENV OW_EXECUTION_ENV=apacheopenserverless/nodejs-24.20.0
+COPY --from=builder /go/bin/proxy /bin/proxy
 
 ENV OW_COMPILER=/bin/compile
 ENV OW_LOG_INIT_ERROR=1

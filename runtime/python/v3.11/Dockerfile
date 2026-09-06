@@ -18,9 +18,9 @@
 ARG COMMON=missing:missing
 FROM ${COMMON} AS builder
 
-FROM python:3.11.8-bookworm
-ENV OW_EXECUTION_ENV=apacheopenserverless/runtime-python-v3.11.8
-COPY --from=builder /go/bin/proxy /bin/proxy 
+FROM python:3.11.16-bookworm
+ENV OW_EXECUTION_ENV=apacheopenserverless/runtime-python-v3.11.16
+COPY --from=builder /go/bin/proxy /bin/proxy
 
 # install zip
 RUN apt-get update && apt-get install -y python3-lxml zip \
