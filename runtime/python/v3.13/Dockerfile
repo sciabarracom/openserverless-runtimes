@@ -26,7 +26,7 @@ ENV UV_CACHE_DIR=/tmp/uv-cache \
 
 # Install build tools and install uv
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl ca-certificates build-essential python3-dev && \
+    curl ca-certificates build-essential && \
     curl -LsSf https://astral.sh/uv/install.sh | sh && \
     apt-get purge -y curl && \
     rm -rf /var/lib/apt/lists/*
