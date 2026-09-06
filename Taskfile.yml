@@ -28,7 +28,7 @@ vars:
   J: "{}"
   COMMIT_ID:
     sh: git rev-parse --short HEAD
-  SUFFIX: "-SNAPSHOT"
+  SUFFIX: "-snapshot"
   # register
   REGISTRY: ${DOCKERHUB_REGISTRY:-docker.io}
   REPO_PATH: ${DOCKERHUB_USER:-apache}
