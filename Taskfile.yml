@@ -173,6 +173,7 @@ tasks:
           ;;
           *_*)
             TS="${T#*_}"
+            {{.DRY}} task build-common TAG="$TS"
             {{.DRY}} task build-lang RT="$RT" TAG="$TS"
           ;;
           *)
