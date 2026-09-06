@@ -154,7 +154,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           task tag RT="${{ inputs.runtime }}"
       - name: Build and push common
-        run: task buildx FILTER=runtime-common:common1.17.1
+        run: task buildx FILTER=runtime-common:1.18.4
       # The tag looks like <scope>_<timestamp>; the runtime shards use the
       # scope to decide whether they apply to this run.
       - name: Read tag scope

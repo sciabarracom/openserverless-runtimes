@@ -33,13 +33,14 @@ vars:
   REGISTRY: ${DOCKERHUB_REGISTRY:-docker.io}
   REPO_PATH: ${DOCKERHUB_USER:-apache}
   BASEIMG: '{{.REGISTRY}}/{{.REPO_PATH}}'
-  # common and experimental runtimes
+  # if you change this, change also the task build FILTER=common:1.18.4 in workflow image.yml
   COMMON_VER: 1.18.4
   # pick the most recently created tag (tags are annotated, so they carry their
   # own creation date and sort correctly even when they share a commit)
   TAG:
     sh: git for-each-ref --sort=-creatordate --count=1 --format='%(refname:short)' refs/tags 2>/dev/null | grep . || echo snapshot
   COMMON: "{{.BASEIMG}}/openserverless-runtime-common:{{.COMMON_VER}}-{{.TAG}}"
+  # if you cahange this change also the filter in workflow image.yml
   #RUNTIMES: "go,nodejs,php,python,java" temp disabled php
   RUNTIMES: "go,nodejs,python,java"
 
@@ -200,7 +201,7 @@ tasks:
     desc: build and push the runtimes selected by task tag
     silent: false
     cmds:
-    - task build PUSH=y FILTER="{{.FILTER}}"
+    - task build PUSH=y FILTER="{{.FILTER}}" DRY2='{{.DRY2}}'
 
   run:
     desc: run a runtime
