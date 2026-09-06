@@ -21,8 +21,10 @@ dotenv: [.env]
 
 vars:
   DRY: ""
+  DRY2: ""
   PUSH: ""
   BASETAG: ""
+  FILTER: ""
   J: "{}"
   COMMIT_ID:
     sh: git rev-parse --short HEAD
@@ -38,7 +40,6 @@ vars:
   TAG:
     sh: git for-each-ref --sort=-creatordate --count=1 --format='%(refname:short)' refs/tags 2>/dev/null | grep . || echo snapshot
   COMMON: "{{.BASEIMG}}/openserverless-runtime-common:{{.COMMON_VER}}-{{.TAG}}"
-
   #RUNTIMES: "go,nodejs,php,python,java" temp disabled php
   RUNTIMES: "go,nodejs,python,java"
 
@@ -86,9 +87,9 @@ tasks:
     cmds:
       - |
         if ! /usr/local/bin/python --version | grep 'Python 3'
-        then echo 'you need to link a python 3 to /usr/local/bin/python to run the tests (do not ask why)'
-             echo tast test-init does it for you if you have a python3 and sudo
-             exit 1
+        then  echo 'you need to link a python 3 to /usr/local/bin/python to run the tests (do not ask why)'
+              echo tast test-init does it for you if you have a python3 and sudo
+              exit 1
         fi
       - go test -v
 
@@ -110,40 +111,46 @@ tasks:
     - yes | docker buildx prune
 
   build-common:
+    silent: true
     dir: "runtime/common/{{.COMMON_VER}}"
     cmds:
       - |
-        if test -n "{{.PUSH}}"
+        if echo '{{.COMMON}}' | grep '{{.FILTER}}'
         then
-            echo ">>> Building arm/amd and pushing {{.COMMON}}"
-            {{.DRY}} docker buildx build -t "{{.COMMON}}" --platform linux/amd64,linux/arm64 . --push
-        else
-            echo ">>> Building {{.COMMON}}"
-            {{.DRY}} docker buildx build -t "{{.COMMON}}" . --load
+          if test -n "{{.PUSH}}"
+          then
+                echo ">>> Building arm/amd and pushing {{.COMMON}}"
+                {{.DRY2}} docker buildx build -t "{{.COMMON}}" --platform linux/amd64,linux/arm64 . --push
+          else
+              echo ">>> Building {{.COMMON}}"
+              {{.DRY2}} docker buildx build -t "{{.COMMON}}" . --load
+          fi
+          echo "<<< Built {{.COMMON}}"
         fi
-        echo "<<< Built {{.COMMON}}"
 
   build-runtime:
+    silent: true
     requires: { vars: [RT, VER] }
     vars:
       RUNTIME: "{{.BASEIMG}}/openserverless-runtime-{{.RT}}:{{.VER}}-{{.TAG}}"
     dir: "runtime/{{.RT}}/{{.VER}}"
     cmds:
       - |
-        if test -n "{{.PUSH}}"
+        if echo '{{.RUNTIME}}' | grep '{{.FILTER}}'
         then
-              echo ">>> Building arm/amd and pushing {{.RUNTIME}}"
-              {{.DRY}} docker buildx build -t "{{.RUNTIME}}" \
-                --build-arg COMMON="{{.COMMON}}" \
-                --platform linux/amd64,linux/arm64 . --push
-        else
-              echo ">>> Building {{.RUNTIME}}"
-              {{.DRY}} docker buildx build -t "{{.RUNTIME}}" \
-                --build-arg COMMON="{{.COMMON}}" . --load
+          if test -n "{{.PUSH}}"
+          then
+                echo ">>> Building arm/amd and pushing {{.RUNTIME}}"
+                {{.DRY2}} docker buildx build -t "{{.RUNTIME}}" --build-arg COMMON="{{.COMMON}}" --platform linux/amd64,linux/arm64 . --push
+          else
+                echo ">>> Building {{.RUNTIME}}"
+                {{.DRY2}} docker buildx build -t "{{.RUNTIME}}" --build-arg COMMON="{{.COMMON}}" . --load
+          fi
+          echo "<<< Built {{.RUNTIME}}"
         fi
-        echo "<<< Built {{.RUNTIME}}"
 
   build-lang:
+    silent: true
     desc: build images for one runtime
     requires: { vars: [RT] }
     vars:
@@ -155,7 +162,7 @@ tasks:
         vars:
           VER: "{{base .ITEM}}"
 
-  # run this
+  # build all
   build:
     silent: true
     desc: build the runtimes selected by task tag
@@ -167,21 +174,21 @@ tasks:
         echo Building: $T
         case "$T" in
           all_*)
-            {{.DRY}} task build-common TAG="$TS" PUSH="{{.PUSH}}"
+            {{.DRY}} task build-common TAG="$TS" PUSH="{{.PUSH}}" DRY2={{.DRY2}} FILTER={{.FILTER}}
             for runtime in $(echo {{.RUNTIMES}} | tr ',' ' ')
-            do {{.DRY}} task build-lang RT="$runtime" TAG="$TS" PUSH="{{.PUSH}}"
+            do {{.DRY}} task build-lang RT="$runtime" TAG="$TS" PUSH="{{.PUSH}}" DRY2={{.DRY2}} FILTER={{.FILTER}}
             done
           ;;
           common_*)
-            {{.DRY}} task build-common TAG="$TS" PUSH="{{.PUSH}}"
+            {{.DRY}} task build-common TAG="$TS" PUSH="{{.PUSH}}" DRY2={{.DRY2}} FILTER={{.FILTER}}
           ;;
           experimental_*)
             {{.DRY}} task x:build-experimental-runtimes TAG="$TS" PUSH="{{.PUSH}}"
           ;;
           *_*)
             TS="${T#*_}"
-            {{.DRY}} task build-common TAG="$TS" PUSH="{{.PUSH}}"
-            {{.DRY}} task build-lang RT="$RT" TAG="$TS" PUSH="{{.PUSH}}"
+            {{.DRY}} task build-common TAG="$TS" PUSH="{{.PUSH}}" DRY2={{.DRY2}} FILTER={{.FILTER}}
+            {{.DRY}} task build-lang RT="$RT" TAG="$TS" PUSH="{{.PUSH}}" DRY2={{.DRY2}} FILTER={{.FILTER}}
           ;;
           *)
             echo this should not happen - did you read the README
@@ -192,7 +199,7 @@ tasks:
     desc: build and push the runtimes selected by task tag
     silent: false
     cmds:
-    - task build PUSH=y
+    - task build PUSH=y FILTER="{{.FILTER}}"
 
   run:
     desc: run a runtime
