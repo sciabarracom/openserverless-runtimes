@@ -114,9 +114,14 @@ tasks:
     cmds:
       - |
         if test -n "{{.PUSH}}"
-        then {{.DRY}} docker buildx build -t "{{.COMMON}}" --platform linux/amd64,linux/arm64 . --push
-        else {{.DRY}} docker buildx build -t "{{.COMMON}}" . --load
+        then
+            echo ">>> Building arm/amd and pushing {{.COMMON}}"
+            {{.DRY}} docker buildx build -t "{{.COMMON}}" --platform linux/amd64,linux/arm64 . --push
+        else
+            echo ">>> Building {{.COMMON}}"
+            {{.DRY}} docker buildx build -t "{{.COMMON}}" . --load
         fi
+        echo "<<< Built {{.COMMON}}"
 
   build-runtime:
     requires: { vars: [RT, VER] }
@@ -125,13 +130,15 @@ tasks:
     dir: "runtime/{{.RT}}/{{.VER}}"
     cmds:
       - |
-        echo ">>> Buiilding {{.RUNTIME}}"
         if test -n "{{.PUSH}}"
         then
+              echo ">>> Building arm/amd and pushing {{.RUNTIME}}"
               {{.DRY}} docker buildx build -t "{{.RUNTIME}}" \
                 --build-arg COMMON="{{.COMMON}}" \
                 --platform linux/amd64,linux/arm64 . --push
-        else  {{.DRY}} docker buildx build -t "{{.RUNTIME}}" \
+        else
+              echo ">>> Building {{.RUNTIME}}"
+              {{.DRY}} docker buildx build -t "{{.RUNTIME}}" \
                 --build-arg COMMON="{{.COMMON}}" . --load
         fi
         echo "<<< Built {{.RUNTIME}}"
@@ -160,21 +167,21 @@ tasks:
         echo Building: $T
         case "$T" in
           all_*)
-            {{.DRY}} task build-common TAG="$TS"
+            {{.DRY}} task build-common TAG="$TS" PUSH="{{.PUSH}}"
             for runtime in $(echo {{.RUNTIMES}} | tr ',' ' ')
-            do {{.DRY}} task build-lang RT="$runtime" TAG="$TS"
+            do {{.DRY}} task build-lang RT="$runtime" TAG="$TS" PUSH="{{.PUSH}}"
             done
           ;;
           common_*)
-            {{.DRY}} task build-common TAG="$TS"
+            {{.DRY}} task build-common TAG="$TS" PUSH="{{.PUSH}}"
           ;;
           experimental_*)
-            {{.DRY}} task x:build-experimental-runtimes TAG="$TS"
+            {{.DRY}} task x:build-experimental-runtimes TAG="$TS" PUSH="{{.PUSH}}"
           ;;
           *_*)
             TS="${T#*_}"
-            {{.DRY}} task build-common TAG="$TS"
-            {{.DRY}} task build-lang RT="$RT" TAG="$TS"
+            {{.DRY}} task build-common TAG="$TS" PUSH="{{.PUSH}}"
+            {{.DRY}} task build-lang RT="$RT" TAG="$TS" PUSH="{{.PUSH}}"
           ;;
           *)
             echo this should not happen - did you read the README
