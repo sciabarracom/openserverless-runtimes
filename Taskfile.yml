@@ -287,6 +287,14 @@ tasks:
       - runtimes.env
     cmds:
       - cat runtimes.json.tpl | envsubst  > runtimes.json
+      # envsubst silently expands unset vars to "", so catch template/runtime drift here
+      - |
+        if grep -q '"tag": ""' runtimes.json
+        then
+          echo "ERROR: unresolved image tags in runtimes.json (runtimes.json.tpl is out of sync with runtimes.env):" >&2
+          grep -n -B12 -A2 '"tag": ""' runtimes.json | grep -E '"(kind|name)"' >&2
+          exit 1
+        fi
 
   render-runtimes:
     silent: true

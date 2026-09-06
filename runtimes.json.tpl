@@ -15,12 +15,12 @@
     "runtimes": {
         "nodejs": [
             {
-                "kind": "nodejs:21",
+                "kind": "nodejs:24",
                 "default": true,
                 "image": {
                     "prefix": "$OPS_RUNTIME_PREFIX",
                     "name": "openserverless-runtime-nodejs",
-                    "tag": "$OPS_RUNTIME_TAG_NODEJS_V21"
+                    "tag": "$OPS_RUNTIME_TAG_NODEJS_V24"
                 },
                 "deprecated": false,
                 "attached": {
@@ -42,12 +42,12 @@
                 ]
             },
             {
-                "kind": "nodejs:20",
+                "kind": "nodejs:22",
                 "default": false,
                 "image": {
                     "prefix": "$OPS_RUNTIME_PREFIX",
                     "name": "openserverless-runtime-nodejs",
-                    "tag": "$OPS_RUNTIME_TAG_NODEJS_V20"
+                    "tag": "$OPS_RUNTIME_TAG_NODEJS_V22"
                 },
                 "deprecated": false,
                 "attached": {
@@ -56,12 +56,12 @@
                 }
             },
             {
-                "kind": "nodejs:18",
+                "kind": "nodejs:20",
                 "default": false,
                 "image": {
                     "prefix": "$OPS_RUNTIME_PREFIX",
                     "name": "openserverless-runtime-nodejs",
-                    "tag": "$OPS_RUNTIME_TAG_NODEJS_V18"
+                    "tag": "$OPS_RUNTIME_TAG_NODEJS_V20"
                 },
                 "deprecated": false,
                 "attached": {
@@ -143,7 +143,7 @@
         ],
         "go": [
             {
-                "kind": "go:1.22",
+                "kind": "go:1.27",
                 "default": true,
                 "deprecated": false,
                 "attached": {
@@ -153,11 +153,11 @@
                 "image": {
                     "prefix": "$OPS_RUNTIME_PREFIX",
                     "name": "openserverless-runtime-go",
-                    "tag": "$OPS_RUNTIME_TAG_GO_V1_22"
+                    "tag": "$OPS_RUNTIME_TAG_GO_V1_27"
                 }
             },
             {
-                "kind": "go:1.21",
+                "kind": "go:1.26",
                 "default": false,
                 "deprecated": false,
                 "attached": {
@@ -167,11 +167,11 @@
                 "image": {
                     "prefix": "$OPS_RUNTIME_PREFIX",
                     "name": "openserverless-runtime-go",
-                    "tag": "$OPS_RUNTIME_TAG_GO_V1_21"
+                    "tag": "$OPS_RUNTIME_TAG_GO_V1_26"
                 }
             },
             {
-                "kind": "go:1.20",
+                "kind": "go:1.25",
                 "default": false,
                 "deprecated": false,
                 "attached": {
@@ -181,21 +181,7 @@
                 "image": {
                     "prefix": "$OPS_RUNTIME_PREFIX",
                     "name": "openserverless-runtime-go",
-                    "tag": "$OPS_RUNTIME_TAG_GO_V1_20"
-                }
-            },
-            {
-                "kind": "go:1.22proxy",
-                "default": false,
-                "deprecated": false,
-                "attached": {
-                    "attachmentName": "codefile",
-                    "attachmentType": "text/plain"
-                },
-                "image": {
-                    "prefix": "$OPS_RUNTIME_PREFIX",
-                    "name": "openserverless-runtime-go",
-                    "tag": "$OPS_RUNTIME_TAG_GO_V1_22PROXY"
+                    "tag": "$OPS_RUNTIME_TAG_GO_V1_25"
                 }
             }
         ],
@@ -259,36 +245,6 @@
                     "attachmentType": "text/plain"
                 },
                 "requireMain": true
-            }
-        ],
-        "php": [
-            {
-                "kind": "php:8.3",
-                "default": true,
-                "deprecated": false,
-                "image": {
-                    "prefix": "$OPS_RUNTIME_PREFIX",
-                    "name": "openserverless-runtime-php",
-                    "tag": "$OPS_RUNTIME_TAG_PHP_V8_3"
-                },
-                "attached": {
-                    "attachmentName": "codefile",
-                    "attachmentType": "text/plain"
-                }
-            },
-            {
-                "kind": "php:8.2",
-                "default": false,
-                "deprecated": false,
-                "image": {
-                    "prefix": "$OPS_RUNTIME_PREFIX",
-                    "name": "openserverless-runtime-php",
-                    "tag": "$OPS_RUNTIME_TAG_PHP_V8_2"
-                },
-                "attached": {
-                    "attachmentName": "codefile",
-                    "attachmentType": "text/plain"
-                }
             }
         ]
     },
