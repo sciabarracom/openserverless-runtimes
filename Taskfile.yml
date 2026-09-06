@@ -23,25 +23,24 @@ vars:
   DRY: ""
   PUSH: ""
   BASETAG: ""
+  J: "{}"
   COMMIT_ID:
     sh: git rev-parse --short HEAD
   SUFFIX: "-SNAPSHOT"
-# registri
+  # register
   REGISTRY: ${DOCKERHUB_REGISTRY:-docker.io}
   REPO_PATH: ${DOCKERHUB_USER:-apache}
   BASEIMG: '{{.REGISTRY}}/{{.REPO_PATH}}'
   # common and experimental runtimes
   COMMON_VER: common1.17.1
-  COMMON: "{{.BASEIMG}}/openserverless-runtime-common:{{.COMMON_VER}}"
-  EXPERIMENTAL_COMMON_VER: common1.18.4{{.SUFFIX}}
-  EXPERIMENTAL_COMMON: "{{.BASEIMG}}/openserverless-runtime-common:{{.EXPERIMENTAL_COMMON_VER}}"
-  # pick the latest tag
+  # pick the most recently created tag (tags are annotated, so they carry their
+  # own creation date and sort correctly even when they share a commit)
   TAG:
-    sh: git describe --tags --abbrev=0 2>/dev/null || echo snapshot
-  J: "{}"
+    sh: git for-each-ref --sort=-creatordate --count=1 --format='%(refname:short)' refs/tags 2>/dev/null | grep . || echo snapshot
+  COMMON: "{{.BASEIMG}}/openserverless-runtime-common:{{.COMMON_VER}}-{{.TAG}}"
+
   #RUNTIMES: "go,nodejs,php,python,java" temp disabled php
   RUNTIMES: "go,nodejs,python,java"
-  EXPERIMENTAL_RUNTIMES: "python"
 
 includes:
   x:
@@ -63,16 +62,16 @@ tasks:
     silent: true
     vars:
       TS:
-        sh: date '+%y %m %d %H %M' | awk '{printf "%s%s%d%s%d\n", $1, substr("abcdefghijkl",$2+0,1), $3, substr("abcdefghijklmnopqrstuvwx",$4+1,1), $5}'
+        sh: date '+%y %m %d %H %M' | awk '{printf "%s%s%02d%s%02d\n", $1, substr("abcdefghijkl",$2+0,1), $3, substr("abcdefghijklmnopqrstuvwx",$4+1,1), $5}'
     cmds:
-      - git tag -d "$(git tag)"  || true
+      - git tag | xargs -L1 git tag -d
       - |
         if test -z "{{.RT}}"
         then RT=all
         else RT="{{.RT}}"
         fi
         TAG="${RT}_{{.TS}}{{.SUFFIX}}"
-        git tag "$TAG"
+        git tag -a -m "build $TAG" "$TAG"
         echo Tag $TAG, you can now 'task build'
 
   ci:
@@ -121,20 +120,21 @@ tasks:
 
   build-runtime:
     requires: { vars: [RT, VER] }
+    vars:
+      RUNTIME: "{{.BASEIMG}}/openserverless-runtime-{{.RT}}:{{.VER}}-{{.TAG}}"
     dir: "runtime/{{.RT}}/{{.VER}}"
     cmds:
       - |
-        RUNTIME="{{.BASEIMG}}/openserverless-runtime-{{.RT}}:{{.VER}}-{{.TAG}}"
-        COMMON="{{.COMMON}}{{.SUFFIX}}"
+        echo ">>> Buiilding {{.RUNTIME}}"
         if test -n "{{.PUSH}}"
         then
-              {{.DRY}} docker buildx build -t "$RUNTIME" \
-                --build-arg COMMON="$COMMON" \
+              {{.DRY}} docker buildx build -t "{{.RUNTIME}}" \
+                --build-arg COMMON="{{.COMMON}}" \
                 --platform linux/amd64,linux/arm64 . --push
-        else  {{.DRY}} docker buildx build -t "$RUNTIME" \
-                --build-arg COMMON="$COMMON" . --load
+        else  {{.DRY}} docker buildx build -t "{{.RUNTIME}}" \
+                --build-arg COMMON="{{.COMMON}}" . --load
         fi
-        echo "Built $RUNTIME"
+        echo "<<< Built {{.RUNTIMNE}}"
 
   build-lang:
     desc: build images for one runtime
@@ -150,7 +150,7 @@ tasks:
 
   # run this
   build:
-    silent: false
+    silent: true
     desc: build the runtimes selected by task tag
     cmds:
     - |
