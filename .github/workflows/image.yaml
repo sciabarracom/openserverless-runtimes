@@ -169,11 +169,6 @@ jobs:
   runtimes:
     name: ${{ matrix.rt }}:${{ matrix.ver }}
     needs: [check, common]
-    # build this shard only when the tag selects it: "all_*" builds every
-    # runtime, "<lang>_*" builds just that language, "common_*" builds none
-    if: >-
-      ${{ needs.common.outputs.scope == 'all'
-          || needs.common.outputs.scope == matrix.rt }}
     runs-on: ubuntu-22.04
     permissions:
       contents: read
@@ -250,5 +245,10 @@ jobs:
           image: tonistiigi/binfmt:qemu-v7.0.0-28
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
+      # build this shard only when the tag selects it: "all_*" builds every
+      # runtime, "<lang>_*" builds just that language, "common_*" builds none.
+      # This gate is on the step, not the job: "matrix" is not available in a
+      # job-level "if", which GitHub rejects as an invalid workflow file.
       - name: Build and push ${{ matrix.rt }}:${{ matrix.ver }}
+        if: ${{ needs.common.outputs.scope == 'all' || needs.common.outputs.scope == matrix.rt }}
         run: task buildx FILTER="${{ matrix.rt }}:${{ matrix.ver }}"
