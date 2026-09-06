@@ -17,10 +17,18 @@
 # Do not fix the patch level for golang:1.19 to automatically get security fixes.
 FROM golang:1.21
 ENV HOME=/tmp
+
+WORKDIR /src
+# dependencies first: this layer is cached unless go.mod/go.sum change
+COPY go.mod go.sum ./
+RUN go mod download
+# the proxy sources
+COPY proxy.go ./
+COPY openwhisk/ ./openwhisk/
+RUN CGO_ENABLED=0 go build -o /go/bin/proxy
+
 USER nobody
-RUN CGO_ENABLED=0 go install github.com/apache/openserverless-runtimes@common1.18.0
-RUN mv /go/bin/openserverless-runtimes /go/bin/proxy
-# Apache release metadata (see DISCLAIMER, LICENSE, NOTICE, WARN)
+# Apache release metadata (see DISCLAIMER, LICENSE, NOTICE)
 COPY DISCLAIMER LICENSE NOTICE /
 
 ENTRYPOINT [ "/go/bin/proxy" ]

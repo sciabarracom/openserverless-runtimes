@@ -18,8 +18,8 @@
 FROM golang:1.21
 ENV HOME=/tmp
 USER nobody
-RUN CGO_ENABLED=0 go install github.com/apache/openserverless-runtimes@common1.18.4
-RUN mv /go/bin/openserverless-runtimes /go/bin/proxy
+RUN CGO_ENABLED=0 go build
+RUN mv openserverless-runtimes /go/bin/proxy
 # Apache release metadata (see DISCLAIMER, LICENSE, NOTICE, WARN)
 COPY DISCLAIMER LICENSE NOTICE /
 

@@ -34,7 +34,7 @@ vars:
   REPO_PATH: ${DOCKERHUB_USER:-apache}
   BASEIMG: '{{.REGISTRY}}/{{.REPO_PATH}}'
   # common and experimental runtimes
-  COMMON_VER: common1.17.1
+  COMMON_VER: 1.18.4
   # pick the most recently created tag (tags are annotated, so they carry their
   # own creation date and sort correctly even when they share a commit)
   TAG:
@@ -112,7 +112,8 @@ tasks:
 
   build-common:
     silent: true
-    dir: "runtime/common/{{.COMMON_VER}}"
+    # use the toplevel for common
+    # dir: "runtime/common/{{.COMMON_VER}}"
     cmds:
       - |
         if echo '{{.COMMON}}' | grep '{{.FILTER}}'
