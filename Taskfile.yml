@@ -134,7 +134,7 @@ tasks:
         else  {{.DRY}} docker buildx build -t "{{.RUNTIME}}" \
                 --build-arg COMMON="{{.COMMON}}" . --load
         fi
-        echo "<<< Built {{.RUNTIMNE}}"
+        echo "<<< Built {{.RUNTIME}}"
 
   build-lang:
     desc: build images for one runtime
