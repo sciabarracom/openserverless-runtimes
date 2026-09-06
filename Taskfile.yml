@@ -80,9 +80,17 @@ tasks:
 
   compile: go build -o proxy
 
+  test-prep: ln -sf $(which python3) /usr/local/bin/python
+
   test:
     dir: openwhisk
     cmds:
+      - |
+        if ! /usr/local/bin/python --version | grep 'Python 3'
+        then echo 'you need to link a python 3 to /usr/local/bin/python to run the tests (do not ask why)'
+             echo tast test-init does it for you if you have a python3 and sudo
+             exit 1
+        fi
       - go test -v
 
   docker-login:
