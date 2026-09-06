@@ -80,16 +80,16 @@ jobs:
             exit 1
           fi
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           submodules: recursive
           # full history and tags: "task tag" replaces the existing tags
           # and "git describe" needs them to be present
           fetch-depth: 0
       - name: License
-        uses: apache/skywalking-eyes@v0.9.0
+        uses: apache/skywalking-eyes@a196742f472feaffafea537ce5a2a4c3c53a8de4 # v0.9.0
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6.5.0
         with:
           go-version: '1.23'
       - name: Setup CI
