@@ -274,11 +274,14 @@ tasks:
     cmds:
       - |
         rm -f runtimes.env
+        T="{{.TAG}}"
+        TS="${T#*_}"
+        RT="${T%%_*}"
         echo "OPS_RUNTIME_PREFIX={{.REPO_PATH}}" >> runtimes.env
         echo "==> RENDERING RUNTIMES {{.RUNTIMES}}"
         for ITEM in `echo {{.RUNTIMES}} | tr ',' ' '`; do
-          echo "==> RENDERINGG $ITEM:{{.TAG}}"
-          task render-lang RT=$ITEM PUSH="{{.PUSH}}" DRY={{.DRY}} BASE_DIR="{{.BASE_DIR}}"
+          echo "==> RENDERING $ITEM:$TS"
+          task render-lang TAG=$TS RT=$ITEM DRY={{.DRY}} BASE_DIR="{{.BASE_DIR}}"
         done
 
   generate-runtimes:
