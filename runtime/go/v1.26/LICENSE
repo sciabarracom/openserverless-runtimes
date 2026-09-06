@@ -204,7 +204,7 @@
 
 ==============================================================================
 LICENSES OF BUNDLED THIRD-PARTY SOFTWARE
-Container image: apache/openserverless-runtime-golang:v1.20
+Container image: apache/openserverless-runtime-golang:v1.26
 ==============================================================================
 
 Apache OpenServerless itself is licensed under the Apache License,
@@ -231,12 +231,6 @@ BSD-3-Clause
     github.com/pmezard/go-difflib (v1.0.0)
     golang.org/x/sys (v0.26.0)
 
-GPL-2.0
-    git ((Debian bookworm))
-
-GPL-2.0-or-later
-    apt-utils ((Debian bookworm))
-
 ISC
     github.com/davecgh/go-spew (v1.1.1)
 
@@ -249,9 +243,6 @@ MIT
     github.com/rs/zerolog (v1.33.0)
     github.com/stretchr/testify (v1.9.0)
     jq ((Debian bookworm))
-
-Vim License (charityware)
-    vim ((Debian bookworm))
 
 curl (MIT-like)
     curl ((Debian bookworm))
@@ -267,14 +258,8 @@ Operating-system packages installed by the Dockerfile
 -----------------------------------------------------
   curl ((Debian bookworm)) -- curl (MIT-like)
   jq ((Debian bookworm)) -- MIT
-  git ((Debian bookworm)) -- GPL-2.0
-      *** SEE WARN ***
   zip ((Debian bookworm)) -- Info-ZIP
-  vim ((Debian bookworm)) -- Vim License (charityware)
-      *** SEE WARN ***
   librdkafka1 / librdkafka++1 / librdkafka-dev ((Debian bookworm)) -- BSD-2-Clause
-  apt-utils ((Debian bookworm)) -- GPL-2.0-or-later
-      *** SEE WARN ***
 
 Action proxy (copied from the common builder image)
 ---------------------------------------------------
@@ -315,4 +300,3 @@ package metadata directories of the respective package manager:
   * PHP packages:     /phpAction/composer/vendor/<pkg>/LICENSE
   * Go modules:       vendored module sources / pkg.go.dev
   * Debian packages:  /usr/share/doc/<pkg>/copyright
-

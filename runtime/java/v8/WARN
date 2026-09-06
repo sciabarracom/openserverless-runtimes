@@ -28,19 +28,6 @@ Category X components that this Dockerfile ADDS on purpose must be removed.
 
 
 ==============================================================================
-CATEGORY X
-==============================================================================
-
-  Component : vim
-  License   : Vim License (charityware)
-  Category  : X
-  Action    :
-      The Vim licence is GPL-compatible but is not on the ASF Category A list and
-      contains a charityware clause. It is a developer convenience only.
-      REMOVE `vim` from the apt install list.
-
-
-==============================================================================
 CATEGORY X (as bundled)
 ==============================================================================
 
@@ -75,7 +62,7 @@ CATEGORY X (as bundled)
 SUMMARY OF REQUIRED REMOVALS (Category X added by this Dockerfile)
 ==============================================================================
 
-  [x] vim  --  Vim License (charityware)
+  None. This Dockerfile adds no Category X component.
 
 ==============================================================================
 ADDITIONAL NOTES

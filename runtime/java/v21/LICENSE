@@ -249,9 +249,6 @@ MIT
 PSF-2.0
     python ((Ubuntu focal))
 
-Vim License (charityware)
-    vim ((Ubuntu focal))
-
 mixed; see WARN
     (see the FROM line of the Dockerfile) (-)
 
@@ -271,8 +268,6 @@ Operating-system packages and base runtime
   locales (glibc) ((Ubuntu focal)) -- GPL-2.0-or-later AND LGPL-2.1-or-later
       *** SEE WARN ***
   python ((Ubuntu focal)) -- PSF-2.0
-  vim ((Ubuntu focal)) -- Vim License (charityware)
-      *** SEE WARN ***
 
 Action proxy (copied from the common builder image)
 ---------------------------------------------------

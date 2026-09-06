@@ -13,8 +13,8 @@ redistributed under the licenses recorded in the LICENSE file that
 accompanies this NOTICE. Components flagged '*** SEE WARN ***' are
 listed in the WARN file as incompatible with the Apache License 2.0.
 
-Python packages preinstalled in the image (requirements.txt)
-------------------------------------------------------------
+Python packages preinstalled in the image (requirements.in)
+-----------------------------------------------------------
   * beautifulsoup4 (4.13.4)
       License: MIT
   * ollama (0.4.5)
@@ -41,6 +41,7 @@ Python packages preinstalled in the image (requirements.txt)
       License: BSD-3-Clause
   * simplejson (3.17.5)
       License: MIT OR AFL-2.1
+      Dual-licensed; the MIT option is elected. See WARN.
   * twisted (21.7.0)
       License: MIT
   * netifaces (0.11.0)
@@ -55,8 +56,6 @@ Python packages preinstalled in the image (requirements.txt)
       License: Apache-2.0
   * minio (7.1.16)
       License: Apache-2.0
-  * auth0-python (4.6.0)
-      License: MIT
   * langdetect (1.0.9)
       License: Apache-2.0
   * plotly (5.19.0)
@@ -81,17 +80,12 @@ Python packages preinstalled in the image (requirements.txt)
       License: MIT
   * langchain-together (0.2.0)
       License: MIT
-  * langchain-postgres (0.0.12)
-      License: MIT
   * langchain-milvus (0.1.7)
       License: MIT
   * bcrypt (4.2.1)
       License: Apache-2.0
   * chevron (0.14.0)
       License: MIT
-  * chess (1.11.1)
-      License: GPL-3.0-or-later
-      *** SEE WARN ***
   * uvicorn (0.34.2)
       License: BSD-3-Clause
   * fastapi (0.115.12)
@@ -103,18 +97,12 @@ Python packages preinstalled in the image (requirements.txt)
 
 Operating-system packages installed by the Dockerfile
 -----------------------------------------------------
-  * python3-psycopg2 ((Debian bookworm))
-      License: LGPL-3.0-or-later
-      *** SEE WARN ***
   * zip ((Debian bookworm))
       License: Info-ZIP
-  * xpdf ((Debian bookworm))
-      License: GPL-2.0 OR GPL-3.0
-      *** SEE WARN ***
   * ca-certificates ((Debian bookworm))
       License: MPL-2.0
       Category B: used unmodified.
-  * uv (latest)
+  * uv ((latest))
       License: Apache-2.0 OR MIT
       Installed from astral.sh at build time.
   * build-essential (gcc, binutils) ((Debian bookworm))
@@ -166,4 +154,3 @@ components and Apache-2.0 licensed libraries listed above.
 
 This product includes software developed by third parties under the
 MIT, BSD, ISC, PSF, MPL-2.0 and other licenses, as recorded in LICENSE.
-

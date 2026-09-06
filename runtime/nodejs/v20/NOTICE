@@ -15,31 +15,24 @@ listed in the WARN file as incompatible with the Apache License 2.0.
 
 npm dependencies preinstalled in the image (package.json)
 ---------------------------------------------------------
-  * @azure/openai (^1.0.0-beta.11)
+  * aws-s3 (^2.0.5)
       License: MIT
-  * @langchain/community (^0.0.34)
+  * minio (^8.0.7)
+      License: Apache-2.0
+  * mongodb (^7.6.0)
+      License: Apache-2.0
+  * ollama (^0.6.3)
       License: MIT
-  * minio (^7.1.3)
+  * openai (^7.10.0)
       License: Apache-2.0
-  * mongodb (^6.4.0)
-      License: Apache-2.0
-  * node-auth0 (^1.0.0)
-      License: NO LICENSE DECLARED
-      *** SEE WARN *** deprecated placeholder package.
-  * ollama (^0.5.0)
-      License: MIT
-  * openai (^4.28.4)
-      License: Apache-2.0
-  * openwhisk (^3.21.8)
+  * openwhisk (^3.21.9)
       License: Apache-2.0
       Apache OpenWhisk.
-  * pg (^8.11.3)
+  * pg (^8.23.0)
       License: MIT
-  * plotly (^1.0.6)
+  * redis (^6.2.1)
       License: MIT
-  * redis (^4.6.13)
-      License: MIT
-  * uuid (^9.0.1)
+  * uuid (^14.0.2)
       License: MIT
 
 Operating-system packages installed by the Dockerfile
@@ -96,4 +89,3 @@ components and Apache-2.0 licensed libraries listed above.
 
 This product includes software developed by third parties under the
 MIT, BSD, ISC, PSF, MPL-2.0 and other licenses, as recorded in LICENSE.
-

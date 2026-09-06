@@ -239,7 +239,7 @@ Apache-2.0 OR BSD-3-Clause
     python-dateutil (2.8.2)
 
 Apache-2.0 OR MIT
-    uv (latest)
+    uv ((latest))
 
 BSD-2-Clause
     feedparser (6.0.11)
@@ -256,12 +256,6 @@ BSD-3-Clause
     starlette (0.46.2)
     uvicorn (0.34.2)
 
-GPL-2.0 OR GPL-3.0
-    xpdf ((Debian bookworm))
-
-GPL-3.0-or-later
-    chess (1.11.1)
-
 GPL-3.0-or-later with GCC Runtime Library Exception
     build-essential (gcc, binutils) ((Debian bookworm))
 
@@ -271,11 +265,7 @@ ISC
 Info-ZIP
     zip ((Debian bookworm))
 
-LGPL-3.0-or-later
-    python3-psycopg2 ((Debian bookworm))
-
 MIT
-    auth0-python (4.6.0)
     beautifulsoup4 (4.13.4)
     chevron (0.14.0)
     fastapi (0.115.12)
@@ -289,7 +279,6 @@ MIT
     langchain-milvus (0.1.7)
     langchain-ollama (0.2.2)
     langchain-openai (0.2.14)
-    langchain-postgres (0.0.12)
     langchain-together (0.2.0)
     lightgbm (4.5.0)
     mcp (1.6.0)
@@ -316,8 +305,8 @@ mixed; see WARN
 Detail by component
 ------------------------------------------------------------------------------
 
-Python packages preinstalled in the image (requirements.txt)
-------------------------------------------------------------
+Python packages preinstalled in the image (requirements.in)
+-----------------------------------------------------------
   beautifulsoup4 (4.13.4) -- MIT
   ollama (0.4.5) -- MIT
   openai (1.59.3) -- Apache-2.0
@@ -331,6 +320,7 @@ Python packages preinstalled in the image (requirements.txt)
   requests (2.32.2) -- Apache-2.0
   scrapy (2.5.0) -- BSD-3-Clause
   simplejson (3.17.5) -- MIT OR AFL-2.1
+      Dual-licensed; the MIT option is elected. See WARN.
   twisted (21.7.0) -- MIT
   netifaces (0.11.0) -- MIT
   pyyaml (6.0.2) -- MIT
@@ -338,7 +328,6 @@ Python packages preinstalled in the image (requirements.txt)
   pg8000 (1.31.5) -- BSD-3-Clause
   pymongo (4.4.1) -- Apache-2.0
   minio (7.1.16) -- Apache-2.0
-  auth0-python (4.6.0) -- MIT
   langdetect (1.0.9) -- Apache-2.0
   plotly (5.19.0) -- MIT
   joblib (1.4.2) -- BSD-3-Clause
@@ -351,12 +340,9 @@ Python packages preinstalled in the image (requirements.txt)
   langchain-openai (0.2.14) -- MIT
   langchain-anthropic (0.3.1) -- MIT
   langchain-together (0.2.0) -- MIT
-  langchain-postgres (0.0.12) -- MIT
   langchain-milvus (0.1.7) -- MIT
   bcrypt (4.2.1) -- Apache-2.0
   chevron (0.14.0) -- MIT
-  chess (1.11.1) -- GPL-3.0-or-later
-      *** SEE WARN ***
   uvicorn (0.34.2) -- BSD-3-Clause
   fastapi (0.115.12) -- MIT
   starlette (0.46.2) -- BSD-3-Clause
@@ -364,14 +350,10 @@ Python packages preinstalled in the image (requirements.txt)
 
 Operating-system packages installed by the Dockerfile
 -----------------------------------------------------
-  python3-psycopg2 ((Debian bookworm)) -- LGPL-3.0-or-later
-      *** SEE WARN ***
   zip ((Debian bookworm)) -- Info-ZIP
-  xpdf ((Debian bookworm)) -- GPL-2.0 OR GPL-3.0
-      *** SEE WARN ***
   ca-certificates ((Debian bookworm)) -- MPL-2.0
       Category B: used unmodified.
-  uv (latest) -- Apache-2.0 OR MIT
+  uv ((latest)) -- Apache-2.0 OR MIT
       Installed from astral.sh at build time.
   build-essential (gcc, binutils) ((Debian bookworm)) -- GPL-3.0-or-later with GCC Runtime Library Exception
       Build stage only; not present in the final image.
@@ -415,4 +397,3 @@ package metadata directories of the respective package manager:
   * PHP packages:     /phpAction/composer/vendor/<pkg>/LICENSE
   * Go modules:       vendored module sources / pkg.go.dev
   * Debian packages:  /usr/share/doc/<pkg>/copyright
-

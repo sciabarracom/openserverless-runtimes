@@ -28,34 +28,7 @@ Category X components that this Dockerfile ADDS on purpose must be removed.
 
 
 ==============================================================================
-CATEGORY X
-==============================================================================
-
-  Component : python3-psycopg2 (Debian package)
-  License   : LGPL-3.0-or-later
-  Category  : X
-  Action    :
-      Installed via apt and shipped inside the image. LGPL is Category X.
-      REMOVE it from the apt install list, or swap for an Apache-compatible driver.
-
-  Component : xpdf
-  License   : GPL-2.0 OR GPL-3.0
-  Category  : X
-  Action    :
-      GPL is Category X and may not be redistributed in an ASF convenience binary.
-      REMOVE `xpdf` from the apt install list. If PDF text extraction is required, use
-      an Apache-compatible library such as Apache PDFBox or pypdf (BSD-3-Clause).
-
-  Component : chess (python-chess)
-  License   : GPL-3.0-or-later
-  Category  : X
-  Action    :
-      GPL-3.0 is Category X. REMOVE `chess` from requirements.txt. It is a sample/demo
-      dependency and is not required by the runtime itself.
-
-
-==============================================================================
-CATEGORY X (as bundled)
+CATEGORY X (AS BUNDLED)
 ==============================================================================
 
   Component : Debian/Ubuntu/Alpine base image userland
@@ -69,7 +42,18 @@ CATEGORY X (as bundled)
 
 
 ==============================================================================
-CATEGORY X (build only)
+CATEGORY A
+==============================================================================
+
+  Component : zip / unzip (Info-ZIP)
+  License   : Info-ZIP License
+  Category  : A
+  Action    :
+      BSD-like and Apache-compatible. No action required.
+
+
+==============================================================================
+CATEGORY X (BUILD ONLY)
 ==============================================================================
 
   Component : build-essential / gcc
@@ -93,18 +77,7 @@ CATEGORY B
 
 
 ==============================================================================
-CATEGORY A
-==============================================================================
-
-  Component : zip / unzip (Info-ZIP)
-  License   : Info-ZIP License
-  Category  : A
-  Action    :
-      BSD-like and Apache-compatible. No action required.
-
-
-==============================================================================
-CATEGORY A (under MIT)
+CATEGORY A (UNDER MIT)
 ==============================================================================
 
   Component : simplejson
@@ -118,16 +91,16 @@ CATEGORY A (under MIT)
 SUMMARY OF REQUIRED REMOVALS (Category X added by this Dockerfile)
 ==============================================================================
 
-  [x] python3-psycopg2 (Debian package)  --  LGPL-3.0-or-later
-  [x] xpdf  --  GPL-2.0 OR GPL-3.0
-  [x] chess (python-chess)  --  GPL-3.0-or-later
+  None. This Dockerfile adds no Category X component.
 
 ==============================================================================
 ADDITIONAL NOTES
 ==============================================================================
 
-Base image: python:3.13.4-slim-bookworm (CPython under the PSF License 2.0).
+Base image: python:3.13.15-slim-bookworm (build) / python:3.13.4-slim-bookworm (final) (CPython under the PSF License 2.0).
+The `chess`, `xpdf` and `python3-psycopg2` components flagged in earlier
+revisions of this file are no longer installed by this runtime.
 The pip dependency tree resolved from requirements.txt is far larger than
-the pinned direct requirements listed here. Run `pip-licenses` inside the
-built image for the complete transitive inventory before a release audit.
-
+the direct requirements listed here; requirements.txt records the full
+pinned closure. Run `pip-licenses` inside the built image for the
+complete inventory before a release audit.

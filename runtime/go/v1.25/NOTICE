@@ -5,7 +5,7 @@ This product includes software developed at
 The Apache Software Foundation (http://www.apache.org/).
 
 ------------------------------------------------------------------------------
-Container image: apache/openserverless-runtime-golang:v1.20
+Container image: apache/openserverless-runtime-golang:v1.25
 ------------------------------------------------------------------------------
 
 This image bundles third-party software. The components below are
@@ -19,19 +19,10 @@ Operating-system packages installed by the Dockerfile
       License: curl (MIT-like)
   * jq ((Debian bookworm))
       License: MIT
-  * git ((Debian bookworm))
-      License: GPL-2.0
-      *** SEE WARN ***
   * zip ((Debian bookworm))
       License: Info-ZIP
-  * vim ((Debian bookworm))
-      License: Vim License (charityware)
-      *** SEE WARN ***
   * librdkafka1 / librdkafka++1 / librdkafka-dev ((Debian bookworm))
       License: BSD-2-Clause
-  * apt-utils ((Debian bookworm))
-      License: GPL-2.0-or-later
-      *** SEE WARN ***
 
 Action proxy (copied from the common builder image)
 ---------------------------------------------------
@@ -78,4 +69,3 @@ components and Apache-2.0 licensed libraries listed above.
 
 This product includes software developed by third parties under the
 MIT, BSD, ISC, PSF, MPL-2.0 and other licenses, as recorded in LICENSE.
-

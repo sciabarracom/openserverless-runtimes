@@ -1,6 +1,6 @@
 ==============================================================================
 WARN -- Apache License 2.0 incompatibilities
-Container image: apache/openserverless-runtime-golang:v1.20
+Container image: apache/openserverless-runtime-golang:v1.27
 ==============================================================================
 
 This file lists third-party components bundled by the Dockerfile beside
@@ -28,34 +28,7 @@ Category X components that this Dockerfile ADDS on purpose must be removed.
 
 
 ==============================================================================
-CATEGORY X
-==============================================================================
-
-  Component : git
-  License   : GPL-2.0
-  Category  : X
-  Action    :
-      GPL-2.0 is Category X. Shipped in the final image so that user actions can fetch
-      sources. REMOVE it, or document it as an operating-system component supplied by
-      the base image rather than by the ASF release.
-
-  Component : vim
-  License   : Vim License (charityware)
-  Category  : X
-  Action    :
-      The Vim licence is GPL-compatible but is not on the ASF Category A list and
-      contains a charityware clause. It is a developer convenience only.
-      REMOVE `vim` from the apt install list.
-
-  Component : apt-utils
-  License   : GPL-2.0-or-later
-  Category  : X
-  Action    :
-      GPL-2.0, and only needed during the build. REMOVE from the final image layer.
-
-
-==============================================================================
-CATEGORY X (as bundled)
+CATEGORY X (AS BUNDLED)
 ==============================================================================
 
   Component : Debian/Ubuntu/Alpine base image userland
@@ -83,16 +56,15 @@ CATEGORY A
 SUMMARY OF REQUIRED REMOVALS (Category X added by this Dockerfile)
 ==============================================================================
 
-  [x] git  --  GPL-2.0
-  [x] vim  --  Vim License (charityware)
-  [x] apt-utils  --  GPL-2.0-or-later
+  None. This Dockerfile adds no Category X component.
 
 ==============================================================================
 ADDITIONAL NOTES
 ==============================================================================
 
-Base image: golang:1.20-bookworm. The Go toolchain is BSD-3-Clause licensed.
+Base image: golang:1.27-bookworm. The Go toolchain is BSD-3-Clause licensed.
 This image ships no preinstalled Go libraries: user actions declare their
 own dependencies, which are fetched at action-compile time and are NOT
 part of this image or of any Apache release artifact.
-
+The `git`, `vim` and `apt-utils` packages flagged in earlier revisions of
+this file are no longer installed by the Dockerfile.

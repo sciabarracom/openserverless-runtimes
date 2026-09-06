@@ -221,44 +221,36 @@ Summary by license
 ------------------------------------------------------------------------------
 
 Apache-2.0
-    bcrypt (4.2.1)
-    boto3 (1.35.98)
-    kafka_python (2.0.2)
+    bcrypt (5.0.0)
+    boto3 (1.43.89)
+    kafka_python (3.0.11)
     langdetect (1.0.9)
-    minio (7.1.16)
-    nltk (3.8.1)
-    openai (1.59.3)
-    pymilvus (2.5.3)
-    pymongo (4.4.1)
-    requests (2.32.2)
+    minio (7.2.20)
+    nltk (3.10.3)
+    openai (3.8.0)
+    pymilvus (3.0.1)
+    pymongo (4.18.0)
+    requests (2.34.2)
 
 Apache-2.0 AND MIT
     gopkg.in/yaml.v3 (v3.0.1)
 
 Apache-2.0 OR BSD-3-Clause
-    python-dateutil (2.8.2)
+    python-dateutil (2.9.0.post0)
 
 BSD-2-Clause
-    feedparser (6.0.11)
+    feedparser (6.0.14)
 
 BSD-3-Clause
     github.com/google/uuid (v1.6.0)
     github.com/pmezard/go-difflib (v1.0.0)
     golang.org/x/sys (v0.26.0)
-    joblib (1.4.2)
-    numpy (1.26.4)
+    joblib (1.6.0)
+    numpy (2.5.2)
     pg8000 (1.31.5)
-    scikit-learn (1.5.2)
-    scrapy (2.5.0)
-
-BSD-3-Clause (bundles libxml2/libxslt, MIT)
     python3-lxml ((Debian bookworm))
-
-GPL-2.0 OR GPL-3.0
-    xpdf ((Debian bookworm))
-
-GPL-3.0-or-later
-    chess (1.11.1)
+    scikit-learn (1.9.0)
+    scrapy (2.18.0)
 
 ISC
     github.com/davecgh/go-spew (v1.1.1)
@@ -266,38 +258,33 @@ ISC
 Info-ZIP
     zip ((Debian bookworm))
 
-LGPL-3.0-or-later
-    python3-psycopg2 ((Debian bookworm))
-
 MIT
-    auth0-python (4.6.0)
-    beautifulsoup4 (4.10.0)
+    beautifulsoup4 (4.15.0)
     chevron (0.14.0)
     github.com/mattn/go-colorable (v0.1.13)
     github.com/mattn/go-isatty (v0.0.20)
     github.com/rs/zerolog (v1.33.0)
     github.com/stretchr/testify (v1.9.0)
-    httplib2 (0.19.1)
-    langchain (0.3.14)
-    langchain-anthropic (0.3.1)
-    langchain-milvus (0.1.7)
-    langchain-ollama (0.2.2)
-    langchain-openai (0.2.14)
-    langchain-postgres (0.0.12)
-    langchain-together (0.2.0)
-    lightgbm (4.5.0)
+    httplib2 (0.32.0)
+    langchain (1.4.0)
+    langchain-anthropic (1.7.1)
+    langchain-milvus (0.4.0)
+    langchain-ollama (1.1.0)
+    langchain-openai (1.6.0)
+    langchain-together (0.4.0)
+    lightgbm (4.7.0)
     netifaces (0.11.0)
-    ollama (0.4.5)
-    plotly (5.19.0)
-    pyyaml (6.0.2)
-    redis (5.2.1)
-    twisted (21.7.0)
+    ollama (0.6.2)
+    plotly (7.0.0)
+    pyyaml (6.0.3)
+    redis (8.1.0)
+    twisted (26.4.0)
 
 MIT OR AFL-2.1
-    simplejson (3.17.5)
+    simplejson (4.1.2)
 
 MIT-CMU (HPND)
-    pillow (11.1.0)
+    pillow (12.3.0)
 
 mixed; see WARN
     (see the FROM line of the Dockerfile) (-)
@@ -306,56 +293,49 @@ mixed; see WARN
 Detail by component
 ------------------------------------------------------------------------------
 
-Python packages preinstalled in the image (requirements.txt)
-------------------------------------------------------------
-  beautifulsoup4 (4.10.0) -- MIT
-  ollama (0.4.5) -- MIT
-  openai (1.59.3) -- Apache-2.0
-  pymilvus (2.5.3) -- Apache-2.0
-  redis (5.2.1) -- MIT
-  pillow (11.1.0) -- MIT-CMU (HPND)
-  nltk (3.8.1) -- Apache-2.0
-  httplib2 (0.19.1) -- MIT
-  kafka_python (2.0.2) -- Apache-2.0
-  python-dateutil (2.8.2) -- Apache-2.0 OR BSD-3-Clause
-  requests (2.32.2) -- Apache-2.0
-  scrapy (2.5.0) -- BSD-3-Clause
-  simplejson (3.17.5) -- MIT OR AFL-2.1
-  twisted (21.7.0) -- MIT
+Python packages preinstalled in the image (requirements.in)
+-----------------------------------------------------------
+  beautifulsoup4 (4.15.0) -- MIT
+  ollama (0.6.2) -- MIT
+  openai (3.8.0) -- Apache-2.0
+  pymilvus (3.0.1) -- Apache-2.0
+  redis (8.1.0) -- MIT
+  pillow (12.3.0) -- MIT-CMU (HPND)
+  nltk (3.10.3) -- Apache-2.0
+  httplib2 (0.32.0) -- MIT
+  kafka_python (3.0.11) -- Apache-2.0
+  python-dateutil (2.9.0.post0) -- Apache-2.0 OR BSD-3-Clause
+  requests (2.34.2) -- Apache-2.0
+  scrapy (2.18.0) -- BSD-3-Clause
+  simplejson (4.1.2) -- MIT OR AFL-2.1
+      Dual-licensed; the MIT option is elected. See WARN.
+  twisted (26.4.0) -- MIT
   netifaces (0.11.0) -- MIT
-  pyyaml (6.0.2) -- MIT
-  boto3 (1.35.98) -- Apache-2.0
+  pyyaml (6.0.3) -- MIT
+  boto3 (1.43.89) -- Apache-2.0
   pg8000 (1.31.5) -- BSD-3-Clause
-  pymongo (4.4.1) -- Apache-2.0
-  minio (7.1.16) -- Apache-2.0
-  auth0-python (4.6.0) -- MIT
+  pymongo (4.18.0) -- Apache-2.0
+  minio (7.2.20) -- Apache-2.0
   langdetect (1.0.9) -- Apache-2.0
-  plotly (5.19.0) -- MIT
-  joblib (1.4.2) -- BSD-3-Clause
-  lightgbm (4.5.0) -- MIT
-  feedparser (6.0.11) -- BSD-2-Clause
-  numpy (1.26.4) -- BSD-3-Clause
-  scikit-learn (1.5.2) -- BSD-3-Clause
-  langchain (0.3.14) -- MIT
-  langchain-ollama (0.2.2) -- MIT
-  langchain-openai (0.2.14) -- MIT
-  langchain-anthropic (0.3.1) -- MIT
-  langchain-together (0.2.0) -- MIT
-  langchain-postgres (0.0.12) -- MIT
-  langchain-milvus (0.1.7) -- MIT
-  bcrypt (4.2.1) -- Apache-2.0
+  plotly (7.0.0) -- MIT
+  joblib (1.6.0) -- BSD-3-Clause
+  lightgbm (4.7.0) -- MIT
+  feedparser (6.0.14) -- BSD-2-Clause
+  numpy (2.5.2) -- BSD-3-Clause
+  scikit-learn (1.9.0) -- BSD-3-Clause
+  langchain (1.4.0) -- MIT
+  langchain-ollama (1.1.0) -- MIT
+  langchain-openai (1.6.0) -- MIT
+  langchain-anthropic (1.7.1) -- MIT
+  langchain-together (0.4.0) -- MIT
+  langchain-milvus (0.4.0) -- MIT
+  bcrypt (5.0.0) -- Apache-2.0
   chevron (0.14.0) -- MIT
-  chess (1.11.1) -- GPL-3.0-or-later
-      *** SEE WARN ***
 
 Operating-system packages installed by the Dockerfile
 -----------------------------------------------------
-  python3-lxml ((Debian bookworm)) -- BSD-3-Clause (bundles libxml2/libxslt, MIT)
-  python3-psycopg2 ((Debian bookworm)) -- LGPL-3.0-or-later
-      *** SEE WARN ***
+  python3-lxml ((Debian bookworm)) -- BSD-3-Clause
   zip ((Debian bookworm)) -- Info-ZIP
-  xpdf ((Debian bookworm)) -- GPL-2.0 OR GPL-3.0
-      *** SEE WARN ***
 
 Action proxy (copied from the common builder image)
 ---------------------------------------------------
@@ -396,4 +376,3 @@ package metadata directories of the respective package manager:
   * PHP packages:     /phpAction/composer/vendor/<pkg>/LICENSE
   * Go modules:       vendored module sources / pkg.go.dev
   * Debian packages:  /usr/share/doc/<pkg>/copyright
-

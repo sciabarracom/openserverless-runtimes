@@ -13,79 +13,72 @@ redistributed under the licenses recorded in the LICENSE file that
 accompanies this NOTICE. Components flagged '*** SEE WARN ***' are
 listed in the WARN file as incompatible with the Apache License 2.0.
 
-Python packages preinstalled in the image (requirements.txt)
-------------------------------------------------------------
-  * beautifulsoup4 (4.10.0)
+Python packages preinstalled in the image (requirements.in)
+-----------------------------------------------------------
+  * beautifulsoup4 (4.15.0)
       License: MIT
-  * httplib2 (0.19.1)
+  * httplib2 (0.32.0)
       License: MIT
-  * kafka_python (2.0.2)
+  * kafka_python (3.0.11)
       License: Apache-2.0
-  * python-dateutil (2.8.2)
+  * python-dateutil (2.9.0.post0)
       License: Apache-2.0 OR BSD-3-Clause
-  * requests (2.31.0)
+  * requests (2.34.2)
       License: Apache-2.0
-  * scrapy (2.5.0)
+  * scrapy (2.18.0)
       License: BSD-3-Clause
-  * simplejson (3.17.5)
+  * simplejson (4.1.2)
       License: MIT OR AFL-2.1
-  * twisted (21.7.0)
+      Dual-licensed; the MIT option is elected. See WARN.
+  * twisted (26.4.0)
       License: MIT
   * netifaces (0.11.0)
       License: MIT
-  * pyyaml (6.0)
+  * pyyaml (6.0.3)
       License: MIT
-  * redis (4.4.2)
+  * redis (8.1.0)
       License: MIT
-  * boto3 (1.28.25)
+  * boto3 (1.43.89)
       License: Apache-2.0
   * pg8000 (1.31.5)
       License: BSD-3-Clause
-  * pymongo (4.4.1)
+  * pymongo (4.18.0)
       License: Apache-2.0
-  * minio (7.1.16)
+  * minio (7.2.20)
       License: Apache-2.0
-  * openai (1.7.1)
+  * openai (3.8.0)
       License: Apache-2.0
-  * auth0-python (4.6.0)
+  * langchain (1.4.0)
       License: MIT
-  * langchain (0.1.0)
-      License: MIT
-  * farm-haystack (1.23.0)
+  * farm-haystack (1.18.0)
       License: Apache-2.0
-  * nltk (3.8.1)
+  * nltk (3.10.3)
       License: Apache-2.0
   * langdetect (1.0.9)
       License: Apache-2.0
-  * plotly (5.19.0)
+  * plotly (7.0.0)
       License: MIT
-  * ollama (0.1.9)
+  * ollama (0.6.2)
       License: MIT
-  * joblib (1.4.2)
+  * joblib (1.6.0)
       License: BSD-3-Clause
-  * lightgbm (4.5.0)
+  * lightgbm (4.7.0)
       License: MIT
-  * feedparser (6.0.11)
+  * feedparser (6.0.14)
       License: BSD-2-Clause
-  * numpy (1.26.4)
+  * numpy (2.4.6)
       License: BSD-3-Clause
-  * scikit-learn (1.5.2)
+  * scikit-learn (1.9.0)
       License: BSD-3-Clause
-  * bcrypt (4.2.1)
+  * bcrypt (5.0.0)
       License: Apache-2.0
 
 Operating-system packages installed by the Dockerfile
 -----------------------------------------------------
   * python3-lxml ((Debian bookworm))
-      License: BSD-3-Clause (bundles libxml2/libxslt, MIT)
-  * python3-psycopg2 ((Debian bookworm))
-      License: LGPL-3.0-or-later
-      *** SEE WARN ***
+      License: BSD-3-Clause
   * zip ((Debian bookworm))
       License: Info-ZIP
-  * xpdf ((Debian bookworm))
-      License: GPL-2.0 OR GPL-3.0
-      *** SEE WARN ***
 
 Action proxy (copied from the common builder image)
 ---------------------------------------------------
@@ -132,4 +125,3 @@ components and Apache-2.0 licensed libraries listed above.
 
 This product includes software developed by third parties under the
 MIT, BSD, ISC, PSF, MPL-2.0 and other licenses, as recorded in LICENSE.
-

@@ -29,9 +29,6 @@ Operating-system packages and base runtime
       *** SEE WARN ***
   * python ((Ubuntu focal))
       License: PSF-2.0
-  * vim ((Ubuntu focal))
-      License: Vim License (charityware)
-      *** SEE WARN ***
 
 Action proxy (copied from the common builder image)
 ---------------------------------------------------

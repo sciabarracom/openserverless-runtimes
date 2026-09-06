@@ -28,20 +28,7 @@ Category X components that this Dockerfile ADDS on purpose must be removed.
 
 
 ==============================================================================
-CATEGORY X
-==============================================================================
-
-  Component : node-auth0
-  License   : NO LICENSE DECLARED
-  Category  : X
-  Action    :
-      The npm package `node-auth0@1.0.0` declares no licence at all and is marked
-      deprecated upstream. Unlicensed code may never be redistributed by the ASF.
-      REMOVE it from package.json; use the maintained `auth0` package (MIT) instead.
-
-
-==============================================================================
-CATEGORY X (as bundled)
+CATEGORY X (AS BUNDLED)
 ==============================================================================
 
   Component : Debian/Ubuntu/Alpine base image userland
@@ -58,6 +45,12 @@ CATEGORY X (as bundled)
 CATEGORY A
 ==============================================================================
 
+  Component : zip / unzip (Info-ZIP)
+  License   : Info-ZIP License
+  Category  : A
+  Action    :
+      BSD-like and Apache-compatible. No action required.
+
   Component : imagemagick / graphicsmagick
   License   : ImageMagick License / MIT
   Category  : A
@@ -65,26 +58,21 @@ CATEGORY A
       Both are Apache-2.0 compatible. Note that ImageMagick delegate libraries may pull in
       additional licences; verify the delegate set if the image is audited in depth.
 
-  Component : zip / unzip (Info-ZIP)
-  License   : Info-ZIP License
-  Category  : A
-  Action    :
-      BSD-like and Apache-compatible. No action required.
-
 
 ==============================================================================
 SUMMARY OF REQUIRED REMOVALS (Category X added by this Dockerfile)
 ==============================================================================
 
-  [x] node-auth0  --  NO LICENSE DECLARED
+  None. This Dockerfile adds no Category X component.
 
 ==============================================================================
 ADDITIONAL NOTES
 ==============================================================================
 
 Base image: node:20.11.1-bookworm (Node.js is MIT licensed).
+The unlicensed `node-auth0` package flagged in earlier revisions of this
+file is no longer in package.json.
 The npm dependency tree resolved by `npm install` is far larger than the
 direct dependencies listed here. Run `npm ls --all` or a license scanner
 inside the built image for the complete transitive inventory before an
 official release audit.
-

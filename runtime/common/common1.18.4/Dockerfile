@@ -21,6 +21,6 @@ USER nobody
 RUN CGO_ENABLED=0 go build
 RUN mv openserverless-runtimes /go/bin/proxy
 # Apache release metadata (see DISCLAIMER, LICENSE, NOTICE, WARN)
-COPY DISCLAIMER LICENSE NOTICE /
+COPY DISCLAIMER LICENSE NOTICE WARN /
 
 ENTRYPOINT [ "/go/bin/proxy" ]

@@ -68,6 +68,6 @@ RUN chown nobody:root /action && chmod 0775 /action
 
 USER nobody
 # Apache release metadata (see DISCLAIMER, LICENSE, NOTICE, WARN)
-COPY DISCLAIMER LICENSE NOTICE /
+COPY DISCLAIMER LICENSE NOTICE WARN /
 
 ENTRYPOINT ["/bin/proxy"]
